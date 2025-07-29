@@ -40,10 +40,18 @@ export const ProfileImg = styled.img`
 
 export const NickName = styled.p`
   font-weight: 700;
+
+  span {
+    font-size: 13px;
+    color: rgb(210,210,210);
+  }
 `
 
 export const PostImg = styled.img`
     width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
     border-top: 1px solid rgb(210,210,210);
     border-bottom: 1px solid rgb(210,210,210);
     cursor: pointer;
@@ -62,6 +70,9 @@ export const Content = styled.p`
 `
 
 export const LikeBox = styled.div`
-    font-size: 25px;
+    color: red;
+    cursor: pointer;
+    font-size: 30px;
     padding: 5px;
 `
+

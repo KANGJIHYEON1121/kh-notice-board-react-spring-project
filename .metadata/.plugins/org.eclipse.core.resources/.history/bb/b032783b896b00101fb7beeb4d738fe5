@@ -1,0 +1,16 @@
+package com.kh.notice_board.service;
+
+import com.kh.notice_board.dto.PostDTO;
+
+import jakarta.transaction.Transactional;
+
+@Transactional
+public interface PostService {
+	Long register(PostDTO postDTO);
+
+	PostDTO get(Long pno);
+
+	void modify(PostDTO postDTO);
+
+	void remove(Long pno);
+}

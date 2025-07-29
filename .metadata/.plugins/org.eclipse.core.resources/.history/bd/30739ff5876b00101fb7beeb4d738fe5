@@ -1,0 +1,99 @@
+package com.kh.notice_board;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+import com.kh.notice_board.domain.Post;
+import com.kh.notice_board.dto.PostDTO;
+import com.kh.notice_board.repository.PostRepository;
+import com.kh.notice_board.service.PostService;
+
+import lombok.extern.log4j.Log4j2;
+
+@SpringBootTest
+@Log4j2
+class PostApplicationTests {
+	@Autowired
+	private PostRepository postRepository;
+
+	@Autowired
+	private PostService postService;
+
+//	데이터 추가
+//	@Test
+	public void testInsert() {
+		for (int i = 1; i <= 30; i++) {
+			Post post = Post.builder().content("content..." + i).dueDate(LocalDate.of(2025, 07, 28)).writer("user00")
+					.likeCount(1).build();
+			postRepository.save(post);
+		}
+	}
+
+//	데이터 조회
+//	@Test
+	public void testRead() {
+		// 존재하는 번호로 확인
+		Long pno = 30L;
+		java.util.Optional<Post> result = postRepository.findById(pno);
+		Post post = result.orElseThrow();
+		log.info(post);
+	}
+
+//	데이터 수정
+//	@Test
+	public void testModify() {
+		Long pno = 30L;
+		java.util.Optional<Post> result = postRepository.findById(pno);
+		Post post = result.orElseThrow();
+		post.changeContent("Modified 33...");
+		post.changeDueDate(LocalDate.of(2023, 10, 10));
+
+		postRepository.save(post);
+	}
+
+//	데이터 삭제
+//	@Test
+	public void testDelete() {
+		Long pno = 30L;
+		postRepository.deleteById(pno);
+	}
+
+//	페이징 처리
+//	@Test
+	public void testPaging() {
+		// 0번째 페이지요청(페이지 인덱스는 0부터 시작), 한 페이지에 10개의 데이터,
+		// 정렬기준은 tno 필드를 기준으로 내림차순
+		Pageable pageable = PageRequest.of(0, 6, Sort.by("pno").descending());
+		// Page<Todo>타입 반환되며, 전체 정보(총 개수, 현재 페이지 등)가 포함
+		Page<Post> result = postRepository.findAll(pageable);
+		// 전체 데이터 개수(전체 Todo 엔티티 수)를 로그로 출력
+		log.info(result.getTotalElements());
+		// 현재 페이지(0페이지)에 포함된 Todo 목록을 가져온다.
+		result.getContent().stream().forEach(post -> log.info(post));
+	}
+
+//	@Test
+	public void testRegister() {
+		PostDTO postDTO = PostDTO.builder().content("서비스 테스트").writer("tester").dueDate(LocalDate.of(2025, 07, 29))
+				.build();
+		Long pno = postService.register(postDTO);
+		log.info("PNO: " + pno);
+	}
+
+	@Test
+	public void testGet() {
+		Long tno = 1L;
+		PostDTO postDTO = postService.get(tno);
+		log.info(postDTO);
+	}
+
+}

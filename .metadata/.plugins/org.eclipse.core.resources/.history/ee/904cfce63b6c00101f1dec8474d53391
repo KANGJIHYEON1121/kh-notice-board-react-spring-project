@@ -1,0 +1,91 @@
+package com.kh.notice_board;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.kh.notice_board.domain.Post;
+import com.kh.notice_board.dto.PostDTO;
+import com.kh.notice_board.repository.PostRepository;
+import com.kh.notice_board.service.PostService;
+
+import lombok.extern.log4j.Log4j2;
+
+@SpringBootTest
+@Log4j2
+class PostImageApplicationTests {
+	@Autowired
+	PostRepository postRepository;
+
+	@Autowired
+	PostService postService;
+
+//	@Test
+	public void testInsert() {
+		for (int i = 0; i < 10; i++) {
+			Post post = Post.builder().content("내용 테스트" + i).build();
+			// 2 개의 이미지 파일 추가
+			post.addImageString(UUID.randomUUID().toString() + "-" + "IMAGE1.jpg");
+			post.addImageString(UUID.randomUUID().toString() + "-" + "IMAGE2.jpg");
+			postRepository.save(post);
+			log.info(" ");
+		}
+	}
+
+//	@Transactional
+//	@Test
+	public void testRead() {
+		Long pno = 10L;
+		Optional<Post> result = postRepository.findById(pno);
+		Post post = result.orElseThrow();
+		log.info(post); // ---------------- 1
+		log.info(post.getImageList()); // --------------------------------- 2
+	}
+
+//	@Test
+	public void testRead2() {
+		Long pno = 10L;
+		Optional<Post> result = postRepository.selectOne(pno);
+		Post post = result.orElseThrow();
+		log.info(post);
+		log.info(post.getImageList());
+	}
+
+//	@Test
+	public void testRegister() {
+		// 1. PostDTO 객체 생성
+		PostDTO postDTO = PostDTO.builder().content("테스트 게시글").writer("테스터").likeCount(0)
+				.dueDate(java.time.LocalDate.now().plusDays(1)).build();
+
+		// 2. 파일명 샘플 추가 (uuid + 파일명 조합)
+		postDTO.setUploadPostImage(List.of(UUID.randomUUID() + "_test1.jpg", UUID.randomUUID() + "_test2.jpg"));
+
+		// 3. 게시글 등록
+		Long savedId = postService.register(postDTO); // 서비스 메서드가 id 반환한다고 가정
+
+		// 4. 등록된 데이터 확인 (엔티티 반환 or 조회 등)
+		PostDTO savedPost = postService.get(savedId); // 서비스에 get 메서드 있다고 가정
+
+		// 5. 검증
+		assertThat(savedPost).isNotNull();
+		assertThat(savedPost.getContent()).isEqualTo("테스트 게시글");
+		assertThat(savedPost.getWriter()).isEqualTo("테스터");
+		assertThat(savedPost.getUploadPostImage()).hasSize(2);
+	}
+
+	@Test
+	public void testRead3() {
+		// 실제 존재하는 번호로 테스트(DB에서 확인)
+		Long pno = 9L;
+		PostDTO postDTO = postService.get(pno);
+		log.info(postDTO);
+		log.info(postDTO.getUploadPostImage());
+	}
+
+}

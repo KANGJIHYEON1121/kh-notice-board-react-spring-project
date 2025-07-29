@@ -1,0 +1,5 @@
+package com.kh.notice_board.controller.formatter;
+
+public class LocalDateFormatter {
+
+}

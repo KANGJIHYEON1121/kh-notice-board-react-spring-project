@@ -1,0 +1,40 @@
+package com.kh.notice_board.domain;
+
+import java.time.LocalDate;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Entity
+@SequenceGenerator(name = "POST_SEQ_GEN", // 시퀀스 제너레이터 이름
+		sequenceName = "POST_SEQ", // 시퀀스 이름
+		initialValue = 1, // 시작값
+		allocationSize = 1 // 메모리를 통해 할당할 범위 사이즈
+)
+@Table(name = "tbl_post")
+@Getter
+@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Post {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TODO_SEQ_GEN")
+	//사용할 전략을 시퀀스로 선택, 식별자 생성기를 설정해 놓은 TODO_SEQ_GEN으로 설정
+	private Long pno;
+	private String content;
+	private String writer;
+	private int likeCount;
+	private String postImage;
+	private LocalDate dueDate;
+}

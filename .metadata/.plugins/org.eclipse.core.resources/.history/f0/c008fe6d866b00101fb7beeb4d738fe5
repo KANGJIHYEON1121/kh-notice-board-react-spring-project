@@ -1,0 +1,22 @@
+package com.kh.notice_board.service;
+
+import org.springframework.stereotype.Service;
+
+import com.kh.notice_board.dto.PostDTO;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+@Service
+@Transactional
+@Log4j2
+@RequiredArgsConstructor
+public class PostServiceImpl implements PostService {
+
+	@Override
+	public Long register(PostDTO postDTO) {
+		return null;
+	}
+
+}

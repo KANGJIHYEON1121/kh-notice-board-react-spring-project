@@ -1,0 +1,5 @@
+package com.kh.notice_board.util;
+
+public class CustomFileUtil {
+
+}

@@ -10,6 +10,8 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: sticky;
+  top: 0;
 }
 
 .menu-list,

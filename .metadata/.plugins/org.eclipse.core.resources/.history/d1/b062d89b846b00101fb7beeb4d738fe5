@@ -1,0 +1,64 @@
+package com.kh.notice_board;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.kh.notice_board.domain.Post;
+import com.kh.notice_board.repository.PostRepository;
+
+import lombok.extern.log4j.Log4j2;
+
+@SpringBootTest
+@Log4j2
+class PostApplicationTests {
+	@Autowired
+	private PostRepository postRepository;
+
+//	데이터 추가
+//	@Test
+	public void testInsert() {
+		for (int i = 1; i <= 30; i++) {
+			Post post = Post.builder().content("content..." + i).dueDate(LocalDate.of(2025, 07, 28)).writer("user00")
+					.likeCount(1).build();
+			postRepository.save(post);
+		}
+	}
+
+//	데이터 조회
+//	@Test
+	public void testRead() {
+		// 존재하는 번호로 확인
+		Long pno = 30L;
+		java.util.Optional<Post> result = postRepository.findById(pno);
+		Post post = result.orElseThrow();
+		log.info(post);
+	}
+	
+//	데이터 수정
+	@Test
+	public void testModify() {
+		Long tno = 33L;
+		java.util.Optional<Todo> result = todoRepository.findById(tno);
+		Todo todo = result.orElseThrow();
+		todo.changeTitle("Modified 33...");
+		todo.changeComplete(true);
+		todo.changeDueDate(LocalDate.of(2023,10,10));
+		todoRepository.save(todo);
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}

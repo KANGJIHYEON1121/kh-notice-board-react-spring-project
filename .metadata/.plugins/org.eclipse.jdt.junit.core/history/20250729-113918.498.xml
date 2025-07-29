@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="PostImageApplicationTests" project="notice-board-spring" tests="1" started="1" failures="0" errors="1" ignored="0">
+  <testsuite name="com.kh.notice_board.PostImageApplicationTests" time="0.276" displayname="PostImageApplicationTests" uniqueid="[engine:junit-jupiter]/[class:com.kh.notice_board.PostImageApplicationTests]">
+    <testcase name="testRead" classname="com.kh.notice_board.PostImageApplicationTests" time="0.276" displayname="testRead()" uniqueid="[engine:junit-jupiter]/[class:com.kh.notice_board.PostImageApplicationTests]/[method:testRead()]">
+      <error>java.util.NoSuchElementException: No value present
+	at java.base/java.util.Optional.orElseThrow(Optional.java:377)
+	at com.kh.notice_board.PostImageApplicationTests.testRead(PostImageApplicationTests.java:39)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+</error>
+    </testcase>
+  </testsuite>
+</testrun>

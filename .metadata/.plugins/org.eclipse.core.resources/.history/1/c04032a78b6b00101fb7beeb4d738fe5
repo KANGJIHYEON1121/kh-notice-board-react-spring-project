@@ -1,0 +1,12 @@
+package com.kh.notice_board.controller.formatter;
+
+public class LocalDateFormatter {
+	@Override
+	public String print(LocalDate object, Locale locale) {
+	return DateTimeFormatter.ofPattern("yyyy-MM-dd").format(object);
+	}
+	@Override
+	public LocalDate parse(String text, Locale locale) throws ParseException {
+	return LocalDate.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	}
+}

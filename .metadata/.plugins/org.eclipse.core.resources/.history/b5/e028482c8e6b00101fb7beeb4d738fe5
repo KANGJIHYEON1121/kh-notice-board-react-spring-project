@@ -1,0 +1,13 @@
+package com.kh.notice_board.config;
+
+import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.kh.notice_board.controller.formatter.LocalDateFormatter;
+
+public class CustomServletConfig implements WebMvcConfigurer {
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		registry.addFormatter(new LocalDateFormatter());
+	}
+}

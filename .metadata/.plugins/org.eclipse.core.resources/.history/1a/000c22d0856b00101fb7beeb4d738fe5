@@ -1,0 +1,7 @@
+package com.kh.notice_board.service;
+
+import com.kh.notice_board.dto.PostDTO;
+
+public class PostService {
+	Long register(PostDTO postDTO);
+}

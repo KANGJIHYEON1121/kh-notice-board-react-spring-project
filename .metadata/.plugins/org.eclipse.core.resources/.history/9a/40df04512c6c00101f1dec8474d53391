@@ -1,0 +1,116 @@
+package com.kh.notice_board.service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import com.kh.notice_board.domain.Post;
+import com.kh.notice_board.dto.PageRequestDTO;
+import com.kh.notice_board.dto.PageResponseDTO;
+import com.kh.notice_board.dto.PostDTO;
+import com.kh.notice_board.repository.PostRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+@Service
+@Transactional
+@Log4j2
+@RequiredArgsConstructor
+public class PostServiceImpl implements PostService {
+	// 자동주입 대상은 final 선언
+	private final ModelMapper modelMapper;
+	private final PostRepository postRepository;
+
+	@Override
+	public Long register(PostDTO postDTO) {
+		log.info(". ........................");
+		Post post = modelMapper.map(postDTO, Post.class);
+		Post savedPost = postRepository.save(post);
+		return savedPost.getPno();
+
+	private Post dtoToEntity(PostDTO postDTO) {
+		// 1. Post 엔티티 생성 (필드 맞게 수정)
+		Post post = Post.builder().pno(postDTO.getPno()).content(postDTO.getContent()).writer(postDTO.getWriter())
+				.likeCount(postDTO.getLikeCount()).dueDate(postDTO.getDueDate()).delFlag(postDTO.isDelFlag()).build();
+
+		// 2. 업로드 파일명 리스트를 엔티티에 저장 (imageList 등 네이밍 주의)
+		List<String> uploadFileNames = postDTO.getUploadPostImage(); // DTO에 남겨둔 파일명 리스트
+		if (uploadFileNames != null) {
+			uploadFileNames.forEach(uploadName -> {
+				// Post 엔티티에 addImageString, addImage 등 메서드에 맞게 호출
+				post.addImageString(uploadName);
+				// 만약 addImageString 없으면, imageList.add(new PostImage(uploadName)); 등으로 처리
+			});
+		}
+		return post;
+
+	}
+
+	@Override
+	public PostDTO get(Long pno) {
+		java.util.Optional<Post> result = postRepository.findById(pno);
+		Post post = result.orElseThrow();
+		PostDTO dto = modelMapper.map(post, PostDTO.class);
+		return dto;
+	}
+
+	@Override
+	public void modify(PostDTO postDTO) {
+		Optional<Post> result = postRepository.findById(postDTO.getPno());
+		Post post = result.orElseThrow();
+
+		post.changeContent(postDTO.getContent());
+		post.changeDueDate(postDTO.getDueDate());
+
+		postRepository.save(post);
+	}
+
+	@Override
+	public void remove(Long pno) {
+		postRepository.deleteById(pno);
+	}
+
+	@Override
+	public PageResponseDTO<PostDTO> list(PageRequestDTO pageRequestDTO) {
+		Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1, // 1 페이지가 0 이므로 주의
+				pageRequestDTO.getSize(), Sort.by("pno").descending());
+
+		Page<Post> result = postRepository.findAll(pageable);
+
+		List<PostDTO> ptoList = result.getContent().stream().map(post -> modelMapper.map(post, PostDTO.class))
+				.collect(Collectors.toList());
+
+		long totalCount = result.getTotalElements();
+
+		PageResponseDTO<PostDTO> responseDTO = PageResponseDTO.<PostDTO>withAll().ptoList(ptoList)
+				.pageRequestDTO(pageRequestDTO).totalCount(totalCount).build();
+
+		return responseDTO;
+	}
+
+	@Override
+	public PageResponseDTO<PostDTO> getMyPosts(PageRequestDTO pageRequestDTO, String writer) {
+		Pageable pageable = PageRequest.of(pageRequestDTO.getPage() <= 0 ? 0 : pageRequestDTO.getPage() - 1,
+				pageRequestDTO.getSize(), Sort.by("pno").descending());
+
+		Page<Post> result = postRepository.findByWriter(writer, pageable);
+
+		List<PostDTO> ptoList = result.getContent().stream().map(post -> PostDTO.builder().pno(post.getPno())
+				.content(post.getContent()).likeCount(post.getLikeCount()).writer(post.getWriter()).build())
+				.collect(Collectors.toList());
+
+		return PageResponseDTO.<PostDTO>builder().ptoList(ptoList).totalPage(result.getTotalPages())
+				.totalCount((int) result.getTotalElements()).pageRequestDTO(pageRequestDTO)
+				.current(pageRequestDTO.getPage()).build();
+	}
+
+}

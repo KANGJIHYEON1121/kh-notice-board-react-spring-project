@@ -1,0 +1,26 @@
+package com.kh.notice_board.dto;
+
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class PostDTO {
+	private Long pno;
+	private String content;
+	private String writer;
+	private int likeCount;
+	private String postImage;
+	private LocalDate dueDate;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dueDate;
+}

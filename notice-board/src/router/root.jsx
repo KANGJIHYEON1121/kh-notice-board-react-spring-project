@@ -15,6 +15,9 @@ const Profile = lazy(() => import("../pages/ProfilePage"));
 const DetailPage = lazy(() => import("../pages/post/DetailPage"));
 const ListPage = lazy(() => import("../pages/post/ListPage"));
 
+// 수정 페이지
+const Modifypage = lazy(() => import("../pages/post/Modifypage"));
+
 const root = createBrowserRouter([
   {
     path: "/",
@@ -27,7 +30,7 @@ const root = createBrowserRouter([
     ),
   },
   {
-    path: "/detail",
+    path: "/detail/:pno",
     element: (
       <Suspense fallback={<Loading />}>
         <Header />
@@ -37,7 +40,7 @@ const root = createBrowserRouter([
     ),
   },
   {
-    path: "/list",
+    path: "/post/list",
     element: (
       <Suspense fallback={<Loading />}>
         <Header />
@@ -62,6 +65,16 @@ const root = createBrowserRouter([
       <Suspense fallback={<Loading />}>
         <Header />
         <UploadPage />
+        <Footer />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/modify/:pno",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Header />
+        <Modifypage />
         <Footer />
       </Suspense>
     ),

@@ -1,0 +1,40 @@
+package com.kh.notice_board;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+import com.kh.notice_board.domain.Post;
+import com.kh.notice_board.dto.PageRequestDTO;
+import com.kh.notice_board.dto.PageResponseDTO;
+import com.kh.notice_board.dto.PostDTO;
+import com.kh.notice_board.repository.PostRepository;
+import com.kh.notice_board.service.PostService;
+
+import lombok.extern.log4j.Log4j2;
+
+@SpringBootTest
+@Log4j2
+class PostImageApplicationTests {
+	@Autowired
+	PostRepository postRepository;
+
+	@Test
+	public void testInsert() {
+		for (int i = 0; i < 10; i++) {
+			Post post = Post.builder().pname("상품" + i).price(100 * i).pdesc("상품설명 " + i).build();
+			// 2 개의 이미지 파일 추가
+			post.addImageString(UUID.randomUUID().toString() + "-" + "IMAGE1.jpg");
+			post.addImageString(UUID.randomUUID().toString() + "-" + "IMAGE2.jpg");
+			postRepository.save(product);
+			log.info(" ");
+		}
+	}
+
+}

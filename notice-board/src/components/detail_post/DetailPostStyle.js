@@ -21,8 +21,10 @@ export const LeftSection = styled.div`
   flex: 1;
 
   img {
-    width: 50%;
-    object-fit: cover;
+    width: 460px;
+    height: 390px;
+    background-position: center;
+    background-size: cover;
     margin-bottom:-2px;
     border-right: 2px solid #f0f0f0;
     border-bottom: 2px solid #f0f0f0;
@@ -89,7 +91,14 @@ export const ActionBox = styled.div`
   gap: 5px;
   padding: 10px;
 
+  h4 {
+    font-size: 14px;
+    cursor: pointer;
+  }
+
   p, span {
+    color: red;
+    font-size: 18px;
     cursor: pointer;
   }
 `;
@@ -136,13 +145,15 @@ export const Comment = styled.div`
 `
 
 export const CommentInput = styled.div`
-width: 50%;
+  width: 50%;
   display: flex;
   align-items: end;
-
+  
   gap: 5px;
   padding: 10px;
+  margin-right: 2px;
   border-top: 2px solid #f0f0f0;
+  border-left: 2px solid #f0f0f0;
 
   textarea {
     flex: 1;

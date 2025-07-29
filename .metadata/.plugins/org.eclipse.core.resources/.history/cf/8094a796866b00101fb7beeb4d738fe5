@@ -1,0 +1,27 @@
+package com.kh.notice_board.service;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import com.kh.notice_board.dto.PostDTO;
+import com.kh.notice_board.repository.PostRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+@Service
+@Transactional
+@Log4j2
+@RequiredArgsConstructor
+public class PostServiceImpl implements PostService {
+	private final ModelMapper modelMapper;
+	private final PostRepository postRepository;
+	
+
+	@Override
+	public Long register(PostDTO postDTO) {
+		return null;
+	}
+
+}

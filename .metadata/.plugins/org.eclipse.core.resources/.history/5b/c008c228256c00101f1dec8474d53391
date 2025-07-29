@@ -1,0 +1,32 @@
+package com.kh.notice_board;
+
+import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.kh.notice_board.domain.Post;
+import com.kh.notice_board.repository.PostRepository;
+
+import lombok.extern.log4j.Log4j2;
+
+@SpringBootTest
+@Log4j2
+class PostImageApplicationTests {
+	@Autowired
+	PostRepository postRepository;
+
+	@Test
+	public void testInsert() {
+		for (int i = 0; i < 10; i++) {
+			Post post = Post.builder().content("내용 테스트" + i).build();
+			// 2 개의 이미지 파일 추가
+			post.addImageString(UUID.randomUUID().toString() + "-" + "IMAGE1.jpg");
+			post.addImageString(UUID.randomUUID().toString() + "-" + "IMAGE2.jpg");
+			postRepository.save(post);
+			log.info(" ");
+		}
+	}
+
+}

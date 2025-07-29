@@ -1,7 +1,10 @@
 package com.kh.notice_board.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,19 +25,51 @@ import lombok.ToString;
 )
 @Table(name = "tbl_post")
 @Getter
-@ToString
+@ToString(exclude = "imageList")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TODO_SEQ_GEN")
-	//사용할 전략을 시퀀스로 선택, 식별자 생성기를 설정해 놓은 TODO_SEQ_GEN으로 설정
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_SEQ_GEN")
+	// 사용할 전략을 시퀀스로 선택, 식별자 생성기를 설정해 놓은 TODO_SEQ_GEN으로 설정
 	private Long pno;
 	private String content;
 	private String writer;
 	private int likeCount;
-	private String postImage;
 	private LocalDate dueDate;
+	private boolean delFlag;
+
+	public void changeDel(boolean delFlag) {
+		this.delFlag = delFlag;
+	}
+
+	@ElementCollection
+	@Builder.Default
+	private List<PostImage> imageList = new ArrayList<>();
+
+	public void changeContent(String content) {
+		this.content = content;
+	}
+
+	public void changeDueDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public void addImage(PostImage image) {
+		// 이미지 추가시 순서(ord) 자동 설정 (0, 1, 2, ...)
+		image.setOrd(this.imageList.size());
+		imageList.add(image);
+	}
+
+	public void addImageString(String fileName) {
+		PostImage postImage = PostImage.builder().fileName(fileName).build();
+		addImage(postImage);
+	}
+
+	public void clearList() {
+		this.imageList.clear();
+	}
+
 }

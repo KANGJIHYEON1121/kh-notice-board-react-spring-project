@@ -1,0 +1,8 @@
+package com.kh.notice_board.dto;
+
+import lombok.Data;
+
+@Data
+public class PageResponseDTO {
+
+}

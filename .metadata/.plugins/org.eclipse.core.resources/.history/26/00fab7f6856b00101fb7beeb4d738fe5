@@ -1,0 +1,13 @@
+package com.kh.notice_board.service;
+
+import com.kh.notice_board.dto.PostDTO;
+
+public class PostServiceImpl implements PostService {
+
+	@Override
+	public Long register(PostDTO postDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

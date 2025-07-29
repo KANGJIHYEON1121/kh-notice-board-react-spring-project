@@ -1,9 +1,6 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   CardStyle,
-  ContentBox,
-  Content,
-  LikeBox,
   PostImg,
   Profile,
   ProfileContainer,
@@ -11,31 +8,45 @@ import {
   SettingBtn,
   NickName,
 } from "./PostCardStyle";
+import { API_SERVER_HOST } from "../../api/API_SERVER_HOST";
 
-const PostListCard = ({ width }) => {
+const host = API_SERVER_HOST;
+
+const PostListCard = ({ width, serverData }) => {
+  const navigate = useNavigate();
+
   return (
     <>
-      <CardStyle width={width}>
-        <ProfileContainer>
-          <Profile>
-            <ProfileImg
-              src="https://i.pinimg.com/236x/cb/77/49/cb7749287ee7e549597348e50f81afbe.jpg"
-              alt="프로필 사진"
-            />
-            <NickName>
-              닉네임 <span>날짜</span>
-            </NickName>
-          </Profile>
-          <SettingBtn>...</SettingBtn>
-        </ProfileContainer>
+      {serverData.ptoList.map((posts) => {
+        return (
+          <CardStyle
+            key={posts.pno}
+            width={width}
+            onClick={() => navigate(`/detail/${posts.pno}`)}
+          >
+            {console.log(posts)}
+            <ProfileContainer>
+              <Profile>
+                <ProfileImg alt="프로필 사진" />
+                <NickName>
+                  {posts.writer} + {posts.pno} <span>{posts.dueDate}</span>
+                </NickName>
+              </Profile>
+              <SettingBtn>...</SettingBtn>
+            </ProfileContainer>
 
-        <div>
-          <PostImg
-            src="https://i.namu.wiki/i/YVm0x8WHfLBtSyejD01_GTV1ITfWOJ-XODZzVTQPr386JsiBaz6Ucl1tKKxZmHiYStf_sXZBmK7AEXkEA18Tsg.webp"
-            alt="게시물 사진"
-          />
-        </div>
-      </CardStyle>
+            <div>
+              {posts.uploadPostImage && posts.uploadPostImage.length > 0 ? (
+                <PostImg
+                  src={`${host}/api/post/view/s_${posts.uploadPostImage[0]}`}
+                />
+              ) : (
+                <PostImg src={`${host}/api/post/view/default.jpg`} />
+              )}
+            </div>
+          </CardStyle>
+        );
+      })}
     </>
   );
 };
