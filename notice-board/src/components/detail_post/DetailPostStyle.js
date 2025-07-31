@@ -19,15 +19,13 @@ export const PostBox = styled.div`
 export const LeftSection = styled.div`
   display: flex;
   flex: 1;
-
+    
   img {
     width: 460px;
     height: 390px;
     background-position: center;
     background-size: cover;
     margin-bottom:-2px;
-    border-right: 2px solid #f0f0f0;
-    border-bottom: 2px solid #f0f0f0;
   }
   
   div {
@@ -48,6 +46,7 @@ export const RightSection = styled.div`
     padding: 5px;
     font-size: 14px;
     overflow-y: auto;
+    border-top: 2px solid #f0f0f0;
   }
 `;
 
@@ -58,6 +57,7 @@ export const ProfileBox = styled.div`
   align-items: center;
   margin-bottom: 10px;
   border-bottom: 2px solid #f0f0f0;
+  
 `;
 
 export const Profile = styled.div`
@@ -158,7 +158,6 @@ export const CommentInput = styled.div`
   
   gap: 5px;
   padding: 10px;
-  margin-right: 2px;
   border-top: 2px solid #f0f0f0;
   border-left: 2px solid #f0f0f0;
 

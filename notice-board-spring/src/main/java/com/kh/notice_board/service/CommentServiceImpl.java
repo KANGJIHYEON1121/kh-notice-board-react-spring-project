@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.notice_board.domain.Comment;
 import com.kh.notice_board.domain.Post;
-import com.kh.notice_board.repository.CommentDTO;
+import com.kh.notice_board.dto.CommentDTO;
 import com.kh.notice_board.repository.CommentRepository;
 import com.kh.notice_board.repository.PostRepository;
 

@@ -37,7 +37,6 @@ const ListPage = () => {
       lastPageInfo.id !== writer
     ) {
       getList({ page, size, writer }).then((data) => {
-        console.log(data);
         setServerData(data);
         setLastPageInfo({ page, size, writer }); // id도 기억하도록 변경
       });

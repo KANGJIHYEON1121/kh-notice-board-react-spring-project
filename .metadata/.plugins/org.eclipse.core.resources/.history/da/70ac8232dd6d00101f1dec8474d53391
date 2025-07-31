@@ -1,0 +1,50 @@
+package com.kh.notice_board;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.kh.notice_board.domain.Member;
+import com.kh.notice_board.domain.MemberRole;
+import com.kh.notice_board.domain.Post;
+import com.kh.notice_board.dto.PageRequestDTO;
+import com.kh.notice_board.dto.PageResponseDTO;
+import com.kh.notice_board.dto.PostDTO;
+import com.kh.notice_board.repository.MemberRepository;
+import com.kh.notice_board.repository.PostRepository;
+import com.kh.notice_board.service.PostService;
+
+import lombok.extern.log4j.Log4j2;
+
+@SpringBootTest
+@Log4j2
+class PostApplicationTests {
+	@Autowired
+	private MemberRepository memberRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Test
+	public void testInsertMember() {
+		for (int i = 0; i < 10; i++) {
+			Member member = Member.builder().email("user" + i + "@test.com").pw(passwordEncoder.encode("123456"))
+					.nickname("USER" + i).build();
+			if(i >= 5) {
+				member.addRole(MemberRole.MANAGER);
+			}
+			if(i >= 9) {
+				member.addRole(MemberRole.ADMIN);
+			}
+			memberRepository.save(member);
+		}
+	}
+
+}

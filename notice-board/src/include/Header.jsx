@@ -17,7 +17,7 @@ const Header = () => {
       </ul>
       <ul className="login-list">
         <li>회원가입</li>
-        <li>로그인</li>
+        <li onClick={() => navigate("/login")}>로그인</li>
       </ul>
     </div>
   );

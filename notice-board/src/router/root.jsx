@@ -18,6 +18,9 @@ const ListPage = lazy(() => import("../pages/post/ListPage"));
 // 수정 페이지
 const Modifypage = lazy(() => import("../pages/post/Modifypage"));
 
+// 로그인 페이지
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+
 const root = createBrowserRouter([
   {
     path: "/",
@@ -85,6 +88,16 @@ const root = createBrowserRouter([
       <Suspense fallback={<Loading />}>
         <Header />
         <Modifypage />
+        <Footer />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/login",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Header />
+        <LoginPage />
         <Footer />
       </Suspense>
     ),

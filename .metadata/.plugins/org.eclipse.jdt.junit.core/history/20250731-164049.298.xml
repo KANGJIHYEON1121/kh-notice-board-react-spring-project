@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="MemberApplicationTests" project="notice-board-spring" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="com.kh.notice_board.MemberApplicationTests" time="1.26" displayname="MemberApplicationTests" uniqueid="[engine:junit-jupiter]/[class:com.kh.notice_board.MemberApplicationTests]">
+    <testcase name="testRead" classname="com.kh.notice_board.MemberApplicationTests" time="0.29" displayname="testRead()" uniqueid="[engine:junit-jupiter]/[class:com.kh.notice_board.MemberApplicationTests]/[method:testRead()]"/>
+    <testcase name="testInsertMember" classname="com.kh.notice_board.MemberApplicationTests" time="0.969" displayname="testInsertMember()" uniqueid="[engine:junit-jupiter]/[class:com.kh.notice_board.MemberApplicationTests]/[method:testInsertMember()]"/>
+  </testsuite>
+</testrun>

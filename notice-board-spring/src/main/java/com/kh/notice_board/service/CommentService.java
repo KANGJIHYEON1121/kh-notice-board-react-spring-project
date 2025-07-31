@@ -2,7 +2,7 @@ package com.kh.notice_board.service;
 
 import java.util.List;
 
-import com.kh.notice_board.repository.CommentDTO;
+import com.kh.notice_board.dto.CommentDTO;
 
 public interface CommentService {
 	// 댓글 등록

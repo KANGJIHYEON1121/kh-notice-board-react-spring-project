@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="PostApplicationTests" project="notice-board-spring" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.kh.notice_board.PostApplicationTests" time="0.321" displayname="PostApplicationTests" uniqueid="[engine:junit-jupiter]/[class:com.kh.notice_board.PostApplicationTests]">
+    <testcase name="testList" classname="com.kh.notice_board.PostApplicationTests" time="0.321" displayname="testList()" uniqueid="[engine:junit-jupiter]/[class:com.kh.notice_board.PostApplicationTests]/[method:testList()]"/>
+  </testsuite>
+</testrun>

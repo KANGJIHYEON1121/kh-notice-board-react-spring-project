@@ -1,0 +1,9 @@
+package com.kh.notice_board.dto;
+
+import org.springframework.security.core.userdetails.User;
+
+public class MemberDTO extends User {
+
+	
+
+}

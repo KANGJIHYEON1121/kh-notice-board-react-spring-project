@@ -1,0 +1,26 @@
+package com.kh.notice_board.dto;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+public class MemberDTO extends User {
+	private static final long serialVersionUID = 1L;
+	private String email;
+	private String pw;
+	private String nickname;
+	private boolean social;
+	private String profileImage;
+	private List<String> roleNames = new ArrayList<>();
+
+	public MemberDTO(String email, String pw, String nickname, boolean enabled, boolean accountNonExpired,
+			boolean credentialsNonExpired, boolean accountNonLocked,
+			Collection<? extends GrantedAuthority> authorities) {
+		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+
+	}
+
+}

@@ -43,7 +43,7 @@ export const NickName = styled.p`
 `
 
 export const PostImg = styled.img`
-    width: 100%;
+    width: 100%;   
     border-top: 1px solid rgb(210,210,210);
     border-bottom: 1px solid rgb(210,210,210);
     cursor: pointer;

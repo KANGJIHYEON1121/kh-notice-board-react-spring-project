@@ -1,0 +1,96 @@
+.carousel-list {
+  margin: 0;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  overflow-x: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.carousel-list::-webkit-scrollbar {
+  display: none;
+}
+
+.event-container {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 100%;
+  height: 400px;
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.event-container > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 10px;
+  display: block;
+  margin-left: 20px;
+}
+
+.event-container.last-image > img {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+  color: black;
+  border: none;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+
+.scroll-btn.left {
+  left: 0px;
+}
+
+.scroll-btn.right {
+  right: 0px;
+}
+
+.scroll-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+}
+
+.indicator-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.indicator-dot.active {
+  background-color: #000;
+}
+
+.indicator-wrapper > span {
+  cursor: pointer;
+}

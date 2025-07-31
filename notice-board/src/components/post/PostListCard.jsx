@@ -24,7 +24,6 @@ const PostListCard = ({ width, serverData }) => {
             width={width}
             onClick={() => navigate(`/detail/${posts.pno}`)}
           >
-            {console.log(posts)}
             <ProfileContainer>
               <Profile>
                 <ProfileImg alt="프로필 사진" />
@@ -34,7 +33,6 @@ const PostListCard = ({ width, serverData }) => {
               </Profile>
               <SettingBtn>...</SettingBtn>
             </ProfileContainer>
-
             <div>
               {posts.uploadPostImage && posts.uploadPostImage.length > 0 ? (
                 <PostImg

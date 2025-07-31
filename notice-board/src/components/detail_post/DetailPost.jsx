@@ -26,6 +26,7 @@ import { API_SERVER_HOST } from "../../api/API_SERVER_HOST";
 import { useNavigate } from "react-router-dom";
 import { getLikeCount, getLikeStatus, toggleLike } from "../../api/likeAPI";
 import { userID } from "../../api/API_SERVER_HOST";
+import EventCard from "../EventCard";
 
 const initState = {
   pno: 0,
@@ -37,6 +38,7 @@ const initState = {
 };
 
 const host = API_SERVER_HOST;
+const imgHost = API_SERVER_HOST + "/api/post/view/s_";
 
 const DetailPost = ({ pno }) => {
   const [post, setPost] = useState(initState);
@@ -74,7 +76,6 @@ const DetailPost = ({ pno }) => {
 
     postComent(newComment)
       .then((cno) => {
-        console.log("댓글 등록 성공:", cno);
         // 등록 후 목록 갱신
         return getComents(pno);
       })
@@ -126,17 +127,24 @@ const DetailPost = ({ pno }) => {
         <LeftSection>
           {post.uploadPostImage && post.uploadPostImage.length > 0 && (
             <div>
-              <img
+              <EventCard
+                cardWidth={160}
+                page={post.uploadPostImage.length}
+                image={post.uploadPostImage.map((img) => ({
+                  imgSrc: `${imgHost}${img}`,
+                }))}
+              />
+              {/* <img
                 src={
                   post.uploadPostImage && post.uploadPostImage.length > 0
                     ? `${host}/api/post/view/s_${post.uploadPostImage[0]}`
                     : `${host}/api/post/view/default.jpg`
                 }
                 alt="게시물 사진"
-              />
+              /> */}
             </div>
           )}
-          <div>
+          <div style={{ borderLeft: "2px solid #f0f0f0" }}>
             <ProfileBox>
               <Profile>
                 <img src="" alt="나의 프로필 사진" />

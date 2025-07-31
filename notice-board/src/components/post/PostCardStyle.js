@@ -49,7 +49,8 @@ export const NickName = styled.p`
 
 export const PostImg = styled.img`
     width: 100%;
-    height: 400px;
+    height: 300px;
+    padding: 1px 0;
     background-size: cover;
     background-position: center;
     border-top: 1px solid rgb(210,210,210);

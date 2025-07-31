@@ -1,0 +1,5 @@
+package com.kh.notice_board.security.handler;
+
+public class APILoginFailHandler {
+
+}

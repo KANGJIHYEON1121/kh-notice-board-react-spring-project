@@ -31,6 +31,10 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq_gen")
     @SequenceGenerator(name = "comment_seq_gen", sequenceName = "comment_seq", allocationSize = 1)
 	private Long cno; // 댓글 번호
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_pno")

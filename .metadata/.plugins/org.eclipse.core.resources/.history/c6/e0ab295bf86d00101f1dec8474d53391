@@ -1,0 +1,9 @@
+package com.kh.notice_board.dto;
+
+
+
+public class MemberDTO extends User {
+
+	
+
+}
