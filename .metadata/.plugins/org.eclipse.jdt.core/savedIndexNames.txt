@@ -43,7 +43,6 @@ INDEX VERSION 1.134+/Users/kjh/kh/react_spring_project/.metadata/.plugins/org.ec
 4251869918.index
 1882588741.index
 587254587.index
-471368486.index
 1180487211.index
 2920357503.index
 2074272044.index

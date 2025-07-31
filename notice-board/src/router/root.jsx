@@ -40,7 +40,17 @@ const root = createBrowserRouter([
     ),
   },
   {
-    path: "/post/list",
+    path: "/post/mylist/:id",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Header />
+        <ListPage />
+        <Footer />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/post/list/:writer",
     element: (
       <Suspense fallback={<Loading />}>
         <Header />

@@ -1,0 +1,45 @@
+package com.kh.notice_board.domain;
+
+import java.time.LocalDate;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "tbl_comment")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Comment {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq_gen")
+    @SequenceGenerator(name = "comment_seq_gen", sequenceName = "comment_seq", allocationSize = 1)
+	private Long cno; // 댓글 번호
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "post_pno")
+	private Post post; // 댓글이 속한 게시글
+
+	private String writer; // 댓글 작성자
+	private String content; // 댓글 내용
+
+	@CreationTimestamp
+	private LocalDate regDate; // 등록일
+
+}

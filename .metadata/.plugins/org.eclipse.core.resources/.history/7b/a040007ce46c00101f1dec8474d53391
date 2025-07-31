@@ -1,0 +1,48 @@
+package com.kh.notice_board.service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.kh.notice_board.domain.Comment;
+import com.kh.notice_board.repository.CommentDTO;
+import com.kh.notice_board.repository.CommentRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class CommentServiceImpl implements CommentService {
+	private final CommentRepository commentRepository;
+	private final ModelMapper modelMapper;
+
+	@Override
+	public Long register(CommentDTO commentDTO) {
+		Post post = postRepository.findById(commentDTO.getPostPno())
+				.orElseThrow(() -> new IllegalArgumentException("Post not found"));
+
+		Comment comment = Comment.builder().content(commentDTO.getContent()).writer(commentDTO.getWriter())
+				.regDate(LocalDate.now()) // 현재 날짜 등록
+				.post(post) // 여기 주의!
+				.build();
+		
+		return saved.getCno();
+	}
+
+	@Override
+	public List<CommentDTO> getList(Long pno) {
+		List<Comment> comments = commentRepository.findCommentsByPostPno(pno);
+		return comments.stream().map(comment -> modelMapper.map(comments, CommentDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public void remove(Long cno) {
+		commentRepository.deleteById(cno);
+	}
+
+}

@@ -1,0 +1,22 @@
+package com.kh.notice_board.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tbl_likes")
+public class Like {
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
+
+	    @ManyToOne(fetch = FetchType.LAZY)
+	    private Member member;
+
+	    @ManyToOne(fetch = FetchType.LAZY)
+	    private Post post;
+
+	    private boolean liked; // true일 경우 좋아요한 상태
+}

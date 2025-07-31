@@ -1,0 +1,27 @@
+package com.kh.notice_board.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kh.notice_board.service.CommentService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+@RestController
+@RequestMapping("/api/comments")
+@RequiredArgsConstructor
+@Log4j2
+public class CommentController {
+	private final CommentService commentService;
+	
+	// 댓글 등록
+	@PostMapping
+	public ResponseEntity<Long> register(@RequestBody CommentDTO commentDTO) {
+		
+	}
+	
+}

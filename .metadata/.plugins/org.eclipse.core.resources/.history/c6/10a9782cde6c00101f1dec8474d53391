@@ -1,0 +1,42 @@
+package com.kh.notice_board.service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.kh.notice_board.domain.Comment;
+import com.kh.notice_board.repository.CommentDTO;
+import com.kh.notice_board.repository.CommentRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class CommentServiceImpl implements CommentService {
+	private final CommentRepository commentRepository;
+	private final ModelMapper modelMapper;
+	
+	
+	@Override
+	public Long registe(CommentDTO commentDTO) {
+		Comment comment = modelMapper.map(commentDTO, Comment.class);
+		Comment saved = commentRepository.save(comment);
+		return saved.getCno();
+	}
+
+	@Override
+	public List<CommentDTO> getList(Long pno) {
+        List<Comment> comments = commentRepository.findByPostPnoOrderByCnoAsc(pno);
+		return comments.stream().map(comment -> modelMapper.map(comments, CommentDTO.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public void remove(Long cno) {
+		commentRepository.deleteById(cno);
+	}
+
+}

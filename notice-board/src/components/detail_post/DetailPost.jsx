@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  deleteComent,
+  getComents,
+  postComent,
+  putComent,
+} from "../../api/comentAPI";
 import {
   DetailPostContainer,
   PostBox,
@@ -10,10 +16,16 @@ import {
   CommentList,
   CommentInput,
   Comment,
+  CommentUser,
+  User,
+  ActionBtn,
+  Content,
 } from "./DetailPostStyle";
 import { getOne } from "../../api/postAPI";
 import { API_SERVER_HOST } from "../../api/API_SERVER_HOST";
 import { useNavigate } from "react-router-dom";
+import { getLikeCount, getLikeStatus, toggleLike } from "../../api/likeAPI";
+import { userID } from "../../api/API_SERVER_HOST";
 
 const initState = {
   pno: 0,
@@ -29,18 +41,84 @@ const host = API_SERVER_HOST;
 const DetailPost = ({ pno }) => {
   const [post, setPost] = useState(initState);
   const [like, setLike] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [coments, setComents] = useState([]);
+  const [comentText, setComentText] = useState("");
+  const [editCno, setEditCno] = useState(null); // 현재 수정 중인 댓글 ID
+  const [editText, setEditText] = useState(""); // 수정 중인 텍스트
+  const inputRef = useRef(null);
   const navigate = useNavigate();
-
-  const clickLike = () => {
-    setLike(!like);
-  };
 
   useEffect(() => {
     getOne(pno).then((data) => {
-      console.log(data);
       setPost(data);
     });
+
+    getComents(pno).then((commentList) => {
+      setComents(commentList);
+    });
   }, [pno]);
+
+  // useEffect 추가 (editCno가 변경될 때마다 포커스)
+  useEffect(() => {
+    if (editCno !== null && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [editCno]);
+  const handleRegisterComment = () => {
+    const newComment = {
+      postPno: pno,
+      writer: userID, // 나중에 로그인 정보에서 가져올 예정
+      content: comentText,
+    };
+
+    postComent(newComment)
+      .then((cno) => {
+        console.log("댓글 등록 성공:", cno);
+        // 등록 후 목록 갱신
+        return getComents(pno);
+      })
+      .then((comentList) => {
+        setComents(comentList);
+        setComentText(""); // 입력창 비우기
+      });
+  };
+
+  useEffect(() => {
+    getLikeStatus(pno, userID).then(setLike);
+    getLikeCount(pno).then(setLikeCount);
+  }, [pno]);
+
+  const handleToggleLike = () => {
+    toggleLike(pno, userID)
+      .then((liked) => {
+        setLike(liked);
+        return getLikeCount(pno);
+      })
+      .then(setLikeCount);
+  };
+
+  const handleUpdateComent = (cno) => {
+    putComent(cno, editText)
+      .then(() => {
+        return getComents(pno);
+      })
+      .then((comentList) => {
+        setComents(comentList);
+        setEditCno(null);
+      });
+  };
+
+  const handleDeleteComent = (cno) => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    deleteComent(cno)
+      .then(() => {
+        return getComents(pno); // 삭제 후 최신 목록 다시 불러오기
+      })
+      .then((comentList) => {
+        setComents(comentList);
+      });
+  };
 
   return (
     <DetailPostContainer>
@@ -68,29 +146,78 @@ const DetailPost = ({ pno }) => {
               </Profile>
               <ActionBox>
                 <h4 onClick={() => navigate(`/modify/${post.pno}`)}>수정</h4>
-                <p onClick={clickLike}>
-                  {like ? "♥︎" : "♡"}
-                  <span>14</span>
-                </p>
+                <div>
+                  <p onClick={handleToggleLike}>{like ? "♥︎" : "♡"}</p>
+                  <span>{likeCount}</span>
+                </div>
               </ActionBox>
             </ProfileBox>
 
             <Comment>
               <CommentList>
-                <div>
-                  <img
-                    // src={}
-                    alt="댓글 유저 사진"
-                  />
-                  <div>
-                    <p>
-                      댓글 유저 아이디 <span>날짜</span>
-                    </p>
-                    <div>
-                      댓글 내용댓글 내용댓글 내용댓글 내용댓글내용댓글내용댓글
-                    </div>
+                {coments.map((coment) => (
+                  <div key={coment.cno}>
+                    <CommentUser>
+                      <User>
+                        <img src="/default-profile.jpg" alt="댓글 유저 사진" />
+                        <p>
+                          {coment.writer} <span>{coment.regDate}</span>{" "}
+                        </p>
+                      </User>
+
+                      {editCno === coment.cno ? (
+                        <>
+                          <ActionBtn>
+                            <span
+                              onClick={() => handleUpdateComent(coment.cno)}
+                            >
+                              저장
+                            </span>
+                            <span onClick={() => setEditCno(null)}>취소</span>
+                          </ActionBtn>
+                        </>
+                      ) : (
+                        <>
+                          <ActionBtn>
+                            <span
+                              onClick={() => {
+                                setEditCno(coment.cno);
+                                setEditText(coment.content);
+                              }}
+                            >
+                              수정
+                            </span>
+                            <span
+                              onClick={() => handleDeleteComent(coment.cno)}
+                            >
+                              삭제
+                            </span>
+                          </ActionBtn>
+                        </>
+                      )}
+                    </CommentUser>
+
+                    {editCno === coment.cno ? (
+                      <>
+                        <Content>
+                          <input
+                            type="text"
+                            ref={inputRef}
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            style={{ width: "100%" }}
+                          />
+                        </Content>
+                      </>
+                    ) : (
+                      <>
+                        <Content>
+                          <div>{coment.content}</div>
+                        </Content>
+                      </>
+                    )}
                   </div>
-                </div>
+                ))}
               </CommentList>
             </Comment>
           </div>
@@ -100,8 +227,13 @@ const DetailPost = ({ pno }) => {
           <p>{post.content}</p>
 
           <CommentInput>
-            <textarea type="text" placeholder="댓글 입력" />
-            <button>등록</button>
+            <textarea
+              type="text"
+              placeholder="댓글 입력"
+              value={comentText}
+              onChange={(e) => setComentText(e.target.value)}
+            />
+            <button onClick={handleRegisterComment}>등록</button>
           </CommentInput>
         </RightSection>
       </PostBox>

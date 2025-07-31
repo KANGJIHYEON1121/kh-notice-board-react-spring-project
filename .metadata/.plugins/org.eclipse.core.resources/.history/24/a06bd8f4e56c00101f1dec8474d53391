@@ -1,0 +1,21 @@
+package com.kh.notice_board.repository;
+
+import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CommentDTO {
+	private Long cno;
+	private Long pno;
+	private String writer;
+	private String content;
+	private LocalDateTime regDate;
+	
+}

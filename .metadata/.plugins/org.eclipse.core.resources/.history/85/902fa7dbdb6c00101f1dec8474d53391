@@ -1,0 +1,6 @@
+package com.kh.notice_board.repository;
+
+public class CommentDTO {
+	Private Long cno;
+	
+}

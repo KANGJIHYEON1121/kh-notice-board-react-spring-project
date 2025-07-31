@@ -10,10 +10,11 @@ import {
   UploadButton,
 } from "./UploadPostStyle";
 import { postAdd } from "../../api/postAPI";
+import { userID } from "../../api/API_SERVER_HOST";
 
 const initState = {
   content: "",
-  writer: "user00",
+  writer: userID,
   likeCount: 0,
   files: [],
   postImage: null,
@@ -24,7 +25,6 @@ const UploadPost = () => {
   const [post, setPost] = useState({ ...initState });
   const [result, setResult] = useState(null);
   const { moveToList } = useCustomMove();
-  const [infoModalOn, setInfoModalOn] = useState(false);
 
   const handleChangePost = (e) => {
     const { name, value, files } = e.target;
@@ -53,7 +53,6 @@ const UploadPost = () => {
       .then((result) => {
         console.log(result);
         setResult(result.TNO);
-        setInfoModalOn(true);
         setPost({ ...initState });
       })
       .catch((e) => {

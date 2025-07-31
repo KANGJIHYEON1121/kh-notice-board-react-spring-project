@@ -1,0 +1,39 @@
+package com.kh.notice_board.service;
+
+import org.springframework.stereotype.Service;
+
+import com.kh.notice_board.repository.LikeRepository;
+import com.kh.notice_board.repository.PostRepository;
+
+@Service
+public class LikeService {
+	private final LikeRepository likeRepository;
+	private final PostRepository postRepository;
+
+	public boolean toggleLike(Long pno, String userId) {
+		Post post = postRepository.findById(pno).orElseThrow(() -> new IllegalArgumentException("Post not found"));
+
+		// 좋아요 여부 확인
+		return likeRepository.findByUserIdAndPost(userId, post).map(existingLike -> {
+			likeRepository.delete(existingLike);
+			post.setLikeCount(post.getLikeCount() - 1);
+			return false; // 좋아요 취소됨
+		}).orElseGet(() -> {
+			likeRepository.save(Like.builder().userId(userId).post(post).build());
+			post.setLikeCount(post.getLikeCount() + 1);
+			return true; // 좋아요 등록됨
+		});
+	}
+
+	public boolean isLiked(Long pno, String userId) {
+		Post post = postRepository.findById(pno).orElseThrow(() -> new IllegalArgumentException("Post not found"));
+
+		return likeRepository.findByUserIdAndPost(userId, post).isPresent();
+	}
+
+	public Long getLikeCount(Long pno) {
+		Post post = postRepository.findById(pno).orElseThrow(() -> new IllegalArgumentException("Post not found"));
+
+		return likeRepository.countByPost(post);
+	}
+}

@@ -1,0 +1,17 @@
+package com.kh.notice_board.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.kh.notice_board.domain.Like;
+import com.kh.notice_board.domain.Post;
+
+public interface LikeRepository extends JpaRepository<Like, Long> {
+	Optional<Like> findByUserIdAndPost(String userId, Post post);
+
+    Long countByPost(Post post);
+
+    void deleteByUserIdAndPost(String userId, Post post);
+
+}

@@ -96,10 +96,21 @@ export const ActionBox = styled.div`
     cursor: pointer;
   }
 
-  p, span {
-    color: red;
-    font-size: 18px;
-    cursor: pointer;
+  div {
+    display: flex;
+    justify-content: flex-end;
+
+    span {
+      width: 20px;
+      text-align: center;
+    }
+
+    p, span {
+      color: red;
+      margin-left: 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
   }
 `;
 
@@ -107,9 +118,7 @@ export const CommentList = styled.div`
   height: auto;
 
   div {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
+    
     
     img {
       width: 35px;
@@ -121,8 +130,6 @@ export const CommentList = styled.div`
     }
 
     div {
-        display: flex;
-        flex-direction: column;
 
           span {
             font-size: 14px;
@@ -176,3 +183,31 @@ export const CommentInput = styled.div`
     background-color: #ccc;
   }
 `;
+
+
+export const CommentUser = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  
+`
+
+export const User = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const ActionBtn = styled.div`
+  text-align: end;
+  padding: 0 5px;
+
+  span {
+    padding: 0 2px;
+    cursor: pointer;
+  }
+
+`
+
+export const Content = styled.div`
+  padding: 5px 10px;
+`

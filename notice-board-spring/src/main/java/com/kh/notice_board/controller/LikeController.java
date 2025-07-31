@@ -1,0 +1,44 @@
+package com.kh.notice_board.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kh.notice_board.service.LikeService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+@RestController
+@RequestMapping("/api/likes")
+@RequiredArgsConstructor
+@Log4j2
+public class LikeController {
+	private final LikeService likeService;
+
+	// 1. 좋아요 토글 (등록/취소)
+	@PostMapping("/{pno}")
+	public ResponseEntity<String> toggleLike(@PathVariable("pno") Long pno, @RequestParam("userId") String userId) {
+		boolean liked = likeService.toggleLike(pno, userId);
+		return ResponseEntity.ok(liked ? "true" : "false");
+	}
+
+	// 2. 좋아요 여부 확인
+	@GetMapping("/{pno}")
+	public ResponseEntity<Boolean> isLiked(@PathVariable("pno") Long pno, @RequestParam("userId") String userId) {
+		boolean isLiked = likeService.isLiked(pno, userId);
+		return ResponseEntity.ok(isLiked);
+	}
+
+	// 3. 좋아요 개수 조회
+	@GetMapping("/count/{pno}")
+	public ResponseEntity<Long> getLikeCount(@PathVariable("pno") Long pno) {
+		Long count = likeService.getLikeCount(pno);
+		return ResponseEntity.ok(count);
+	}
+
+}

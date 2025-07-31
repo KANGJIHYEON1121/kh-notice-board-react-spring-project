@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   createSearchParams,
   useNavigate,
+  useParams,
   useSearchParams,
 } from "react-router-dom";
 
@@ -18,7 +19,8 @@ const useCustomMove = () => {
   const [queryParams] = useSearchParams();
   const page = useMemo(() => getNum(queryParams.get("page"), 1), [queryParams]);
   const size = useMemo(() => getNum(queryParams.get("size"), 6), [queryParams]);
-  const queryDefault = createSearchParams({ page, size }).toString(); //새로 추가
+  const queryDefault = createSearchParams({ page, size }).toString();
+  const { writer } = useParams(); // 추가: 현재 경로의 writer 파라미터
 
   const moveToList = (pageParam) => {
     let queryStr = "";
@@ -32,8 +34,12 @@ const useCustomMove = () => {
     } else {
       queryStr = queryDefault;
     }
+
+    // writer 값이 있다면 해당 경로로, 없다면 기본 목록
+    const targetPath = writer ? `../post/list/${writer}` : `../post/list`;
+
     navigate({
-      pathname: `../post/list`,
+      pathname: targetPath,
       search: queryStr,
     });
     setRefresh(!refresh); //추가

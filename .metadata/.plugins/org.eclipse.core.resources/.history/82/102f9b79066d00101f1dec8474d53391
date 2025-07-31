@@ -1,0 +1,10 @@
+package com.kh.notice_board.service;
+
+import org.springframework.stereotype.Service;
+
+import com.kh.notice_board.repository.LikeRepository;
+
+@Service
+public class LikeService {
+	private final LikeRepository likeRepository;
+}

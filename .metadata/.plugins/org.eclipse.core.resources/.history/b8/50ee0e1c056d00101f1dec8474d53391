@@ -1,0 +1,10 @@
+package com.kh.notice_board.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tbl_likes")
+public class Like {
+
+}

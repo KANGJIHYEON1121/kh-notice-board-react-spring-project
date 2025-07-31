@@ -71,5 +71,13 @@ public class Post {
 	public void clearList() {
 		this.imageList.clear();
 	}
+	
+	public void increaseLikeCount() {
+	    this.likeCount++;
+	}
+
+	public void decreaseLikeCount() {
+	    this.likeCount = Math.max(0, this.likeCount - 1); // 음수 방지
+	}
 
 }
